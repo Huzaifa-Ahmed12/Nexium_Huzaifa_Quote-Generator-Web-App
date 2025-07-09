@@ -8,7 +8,7 @@ import { Sun, Moon } from "lucide-react";
 const quotes = [
   { text: "The best way to predict the future is to invent it.", author: "Alan Kay" },
   { text: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt" },
-  { text: "Your time is limited, so don’t waste it living someone else’s life.", author: "Steve Jobs" },
+  { text: "Push yourself, because no one else is going to do it for you.", author: "Unknown" },
   { text: "Don’t count the days, make the days count.", author: "Muhammad Ali" },
   { text: "Everything you’ve ever wanted is on the other side of fear.", author: "George Addair" },
   { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
@@ -21,7 +21,6 @@ const quotes = [
   { text: "Try not to become a man of success. Rather become a man of value.", author: "Albert Einstein" },
   { text: "Hardships often prepare ordinary people for an extraordinary destiny.", author: "C.S. Lewis" },
   { text: "Strive not to be a success, but rather to be of value.", author: "Albert Einstein" },
-  // You can add more...
 ];
 
 export default function Home() {
@@ -75,86 +74,110 @@ export default function Home() {
   };
 
   return (
-    <div className={`${isDark ? "bg-gray-900 text-white" : "bg-gray-100 text-black"} min-h-screen flex flex-col transition-colors`}>
-      
-      {/* --- Header/Navbar --- */}
-      <header className={`${isDark ? "bg-gray-800" : "bg-white"} shadow-md py-2 px-4 flex justify-between items-center`}>
-        <h1 className="text-xl font-bold">Quote Generator</h1>
-        <Button
-  onClick={toggleTheme}
-  variant="ghost"
-  className="rounded-full p-2 shadow-none focus:outline-none focus:ring-0 border-none"
+    <div
+      className={`relative min-h-screen flex flex-col transition-colors duration-300 overflow-hidden ${
+        isDark ? "text-white" : "text-gray-900"
+      }`}
+    >
+      {/* Animated Background */}
+      <div className="absolute inset-0 z-0 bg-gradient-to-br from-pink-200 via-blue-100 to-yellow-100 dark:from-gray-800 dark:via-gray-900 dark:to-black bg-[length:400%_400%] animate-gradient blur-2xl opacity-50" />
+
+      {/* Content */}
+     <div className="relative z-10 flex flex-col flex-grow">
+
+        {/* Header */}
+       <header className="bg-gray-900 shadow-md py-4 px-4 text-left">
+  <h1 className="text-2xl md:text-3xl font-bold text-white tracking-wide">
+    My Custom Quote App
+  </h1>
+</header>
+
+
+
+        {/* Main */}
+        <main className="flex-grow flex items-center justify-center px-4 py-10">
+          <div
+            className={`${
+              isDark ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"
+            } w-full max-w-2xl p-8 rounded-2xl shadow-xl text-center border`}
+          >
+            {quote && (
+             <blockquote className="mb-6">
+  <p className="text-2xl md:text-3xl font-bold text-black dark:text-black text-center">
+    “{quote.text}”
+  </p>
+  <cite className="block mt-4 text-lg font-medium text-black dark:text-black text-center">
+    — {quote.author}
+  </cite>
+</blockquote>
+
+            )}
+            <div className="flex flex-wrap justify-center gap-4 mt-4">
+       
+<Button
+  onClick={getNewQuote}
+  className="bg-black hover:bg-gray-800 text-white"
 >
-  {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+  New Quote
 </Button>
 
-      </header>
+<Button
+  onClick={copyToClipboard}
+  className="bg-black hover:bg-gray-800 text-white"
+>
+  Copy
+</Button>
 
-      {/* --- Main Section --- */}
-      <main className="flex-grow flex items-center justify-center px-4 py-10">
-        <div className={`${isDark ? "bg-gray-800" : "bg-white"} w-full max-w-2xl p-8 rounded-lg shadow-lg text-center`}>
-          {quote && (
-            <blockquote className="mb-6">
-              <p className="text-2xl font-semibold md:text-3xl">
-                "{quote.text}"
-              </p>
-              <cite className="block mt-4 text-lg not-italic">
-                — {quote.author}
-              </cite>
-            </blockquote>
-          )}
-          <div className="flex flex-wrap justify-center gap-4 mt-4">
-            <Button
-              onClick={getNewQuote}
-              className="bg-lime-500 hover:bg-lime-600 text-white"
-            >
-              New Quote
-            </Button>
-            <Button
-              onClick={copyToClipboard}
-              variant="outline"
-              className="text-lime-500 border-lime-500 hover:bg-lime-500 hover:text-white"
-            >
-              Copy
-            </Button>
-          </div>
 
-          <div className="mt-8">
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search by word or author..."
-              className={`w-full px-4 py-2 rounded-md border mt-2 mb-4 ${
-                isDark ? "bg-gray-700 text-white border-gray-600" : "bg-gray-100 text-black border-gray-300"
-              }`}
-            />
-            <Button
-              onClick={handleSearch}
-              className="bg-lime-500 hover:bg-lime-600 text-white w-full"
-            >
-              Search
-            </Button>
-          </div>
 
-          {filteredQuotes.length > 0 && (
-            <div className="mt-6 text-left space-y-4">
-              <h3 className="text-xl font-semibold">Search Results:</h3>
-              {filteredQuotes.map((q, idx) => (
-                <div key={idx} className="p-4 border rounded-md bg-opacity-10 border-lime-400">
-                  <p className="text-md">"{q.text}"</p>
-                  <p className="text-sm mt-1 text-gray-500">— {q.author}</p>
-                </div>
-              ))}
             </div>
-          )}
-        </div>
-      </main>
 
-      {/* --- Footer --- */}
-      <footer className="text-center py-4 text-sm bg-black text-white w-full">
-        © 2025 Quote Generator by Idrees — All rights reserved.
-      </footer>
+            <div className="mt-8">
+              <input
+                type="text"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="Search by word or author..."
+                className={`w-full px-4 py-2 rounded-md mt-2 mb-4 outline-none focus:ring-2 focus:ring-blue-400 ${
+                  isDark
+                    ? "bg-blue-900 text-white border-blue-600 placeholder-white"
+                    : "bg-blue-100 text-black border-blue-300 placeholder-black"
+                }`}
+              />
+      <Button
+  onClick={handleSearch}
+  className="bg-blue-600 hover:bg-blue-700 text-black w-full"
+>
+  Search
+</Button>
+
+
+
+
+            </div>
+
+            {filteredQuotes.length > 0 && (
+              <div className="mt-6 text-left space-y-4">
+                <h3 className="text-xl font-semibold">Search Results:</h3>
+                {filteredQuotes.map((q, idx) => (
+                  <div
+                    key={idx}
+                    className="p-4 border rounded-xl bg-white dark:bg-gray-900 border-lime-400 shadow hover:scale-105 transition-transform"
+                  >
+                    <p className="text-md font-semibold text-gray-800 dark:text-white">"{q.text}"</p>
+                    <p className="text-sm mt-1 text-gray-600 dark:text-gray-300">— {q.author}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </main>
+
+        {/* Footer */}
+  <footer className="text-center py-4 text-sm bg-black text-white font-semibold tracking-wider shadow-xl">
+  🚀 Crafted with precision & passion — Quotes that spark greatness. — Huzaifa
+</footer>
+      </div>
     </div>
   );
 }
